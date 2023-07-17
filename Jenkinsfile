@@ -23,23 +23,23 @@ pipeline {
                    '''
             }
         }
-        stage('docker prune') {
-            steps {
-                sh 'sudo docker system prune -a -f'
-            }
-        }
-
-        stage('docker compose') {
-            steps {
-                sh 'sudo docker-compose build'
-            }
-        }
-
-        stage('docker up') {
-            steps {
-                sh 'sudo docker-compose up -d'
-            }
-        }
+        //stage('docker prune') {
+        //    steps {
+        //        sh 'sudo docker system prune -a -f'
+        //    }
+        //}
+//
+        //stage('docker compose') {
+        //    steps {
+        //        sh 'sudo docker-compose build'
+        //    }
+        //}
+//
+        //stage('docker up') {
+        //    steps {
+        //        sh 'sudo docker-compose up -d'
+        //    }
+        //}
 
         //stage('connect via ssh deploy server') {
         //    steps {
