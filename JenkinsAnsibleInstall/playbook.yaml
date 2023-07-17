@@ -198,7 +198,7 @@
 
     - name: create a dir
       ansible.builtin.file:
-       path: /home/ubuntu/App
+       path: /home/ubuntu/AppTest
        state: directory
        mode: '0755'
        owner: ubuntu
@@ -207,4 +207,4 @@
     - name: Clone a repo with seperate git directory
       ansible.builtin.git:
         repo: https://github.com/ethanjohn99/PrimeAgeJenkins.git
-        dest: /home/ubuntu/App/
+        dest: /home/ubuntu/AppTest/

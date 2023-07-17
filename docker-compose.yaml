@@ -2,7 +2,7 @@ version: '3.7'
 services:
   main:
     image: nathanforester321/main:latest
-    build: /var/lib/jenkins/workspace/AppTest/main
+    build: ./AppTest/main
     ports:
         - target: 5000
           published: 5000
@@ -10,7 +10,7 @@ services:
       replicas: 1
   converter:
     image: nathanforester321/converter:latest
-    build: /var/lib/jenkins/workspace/AppTest/converter
+    build: ./AppTest/converter
     ports:
         - target: 5001
           published: 5001 
@@ -18,7 +18,7 @@ services:
       replicas: 1
   prime:
     image: nathanforester321/prime:latest
-    build: /var/lib/jenkins/workspace/AppTest/prime
+    build: ./AppTest/prime
     ports:
         - target: 5002
           published: 5002
