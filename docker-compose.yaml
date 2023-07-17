@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   main:
-    image: primeAgg/main:latest
+    image: nathanforester321/main:latest
     build: /var/lib/jenkins/workspace/AppTest/main
     ports:
         - target: 5000
@@ -9,7 +9,7 @@ services:
     deploy:
       replicas: 1
   converter:
-    image: primeAgg/converter:latest
+    image: nathanforester321/converter:latest
     build: /var/lib/jenkins/workspace/AppTest/converter
     ports:
         - target: 5001
@@ -17,7 +17,7 @@ services:
     deploy:
       replicas: 1
   prime:
-    image: primeAgg/prime:latest
+    image: nathanforester321/prime:latest
     build: /var/lib/jenkins/workspace/AppTest/prime
     ports:
         - target: 5002
