@@ -2,7 +2,11 @@ all:
   children:
     jenkins:
       hosts:
-        35.178.16.97:
+        18.169.187.50:
+    deployServer:
+      hosts:
+        13.41.76.113:
+        
   
   vars:
     ansible_user: ubuntu
