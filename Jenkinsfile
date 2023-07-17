@@ -23,18 +23,18 @@ pipeline {
                    '''
             }
         }
-        stage('docker prune') {
-            steps {
-                sh 'sudo docker system prune -a -f'
-            }
-        }
-
-        stage('docker compose') {
-            steps {
-                sh 'docker-compose build'
-            }
-        }
-
+        //stage('docker prune') {
+        //    steps {
+        //        sh 'docker system prune -a -f'
+        //    }
+        //}
+//
+        //stage('docker compose') {
+        //    steps {
+        //        sh 'docker-compose build'
+        //    }
+        //}
+//
         //stage('connect via ssh deploy server') {
         //    steps {
         //        sh '''
