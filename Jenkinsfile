@@ -35,6 +35,12 @@ pipeline {
             }
         }
 
+        stage('docker up') {
+            steps {
+                sh 'sudo docker-compose up'
+            }
+        }
+
         //stage('connect via ssh deploy server') {
         //    steps {
         //        sh '''
