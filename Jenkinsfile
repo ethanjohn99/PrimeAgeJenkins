@@ -45,7 +45,7 @@ pipeline {
             steps {
                 sh '''
                    #!/bin/bash
-                   ssh -i /home/jenkins/.ssh/myKey -o StrictHostKeyChecking=no ubuntu@172.31.33.237 << EOF
+                   ssh -i /home/jenkins/.ssh/myKey -o StrictHostKeyChecking=no ubuntu@13.41.76.113 << EOF
                    docker-compose -f /home/ubuntu/App/docker-compose.yaml down
                    docker system prune -a -f
                    docker-compose -f /home/ubuntu/App/docker-compose.yaml up -d
