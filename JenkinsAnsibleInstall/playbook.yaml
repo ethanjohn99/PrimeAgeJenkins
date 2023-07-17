@@ -1,0 +1,136 @@
+- hosts: jenkins
+  become: yes
+  vars:
+    docker_compose_version: "1.27.4"
+  tasks:
+
+    - name: Update apt cache
+      apt: update_cache=yes
+
+    - name: Install dependencies
+      apt:
+        name: "{{ packages }}"
+        state: present
+        update_cache: yes
+      vars:
+        packages:
+        - openjdk-11-jdk
+
+
+    - name: Add jenkins user and append to admin group
+      user:
+        name: jenkins
+        shell: /bin/bash
+        password: ''
+        groups: admin
+        append: yes
+    
+    - name: Allow 'jenkins' user to have passwordless sudo
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        line: 'jenkins ALL=(ALL) NOPASSWD:ALL'
+        validate: 'visudo -cf %s'
+
+    - name: Import a key from a url
+      ansible.builtin.apt_key:
+        url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key 
+        state: present
+
+    - name: download jenkins binary
+      command: sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+      
+    - name: Update apt cache
+      apt: update_cache=yes
+
+    - name: install jenkins
+      apt:
+        name: jenkins
+        state: present
+        update_cache: yes
+
+    - name: Just force systemd to re-execute itself
+      ansible.builtin.systemd:
+        daemon_reload: yes
+        scope: system
+
+    - name: start service jenkins
+      ansible.builtin.systemd:
+        name: jenkins
+        state: started
+        scope: system
+
+    - name: get password
+      command: cat /var/lib/jenkins/secrets/initialAdminPassword
+
+    - name: Install python pip
+      ansible.builtin.apt:
+        name: python3-pip
+    
+    - name: Install multiple python packages
+      ansible.builtin.pip:
+        name:
+          - Flask
+          - pytest
+          - flask_testing
+          - requests_mock
+
+    - name: Install Docker dependencies
+      apt:
+        pkg:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+        - gnupg-agent
+        state: latest
+        update_cache: yes
+      tags: docker
+
+    - name: Get Docker Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+      tags: docker
+
+    - name: Add Docker Packages to Repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+        state: present
+      tags: docker
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present
+        update_cache: yes
+      vars:
+        packages:
+        - docker-ce
+        - docker-ce-cli 
+        - containerd.io
+    
+    - name: Add user to docker group
+      user:
+        name: "{{ansible_user}}"
+        group: docker
+    
+    - name: Download docker-compose {{ docker_compose_version }}
+      get_url:
+        url : https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64
+        dest: ~/docker-compose
+        mode: '+x'
+
+    - name: Check docker-compose exists
+      stat: path=~/docker-compose
+      register: docker_compose
+
+    - name: Move docker-compose to /usr/local/bin/docker-compose
+      command: mv ~/docker-compose /usr/local/bin/docker-compose
+      when: docker_compose.stat.exists
+
+    - name: Start docker service
+      service:
+        name: docker
+        state: started
+    
