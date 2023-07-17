@@ -6,11 +6,11 @@ pipeline {
                     description: 'Read Jenkinsfile and exit.')
 		    }
     stages {
-        // stage('Pre') { hello push
-        //     steps {
-        //         sh 'ansible-playbook -v -i /home/jenkins/.jenkins/workspace/FlaskApp/inventory.yaml /home/jenkins/.jenkins/workspace/FlaskApp/playbook.yaml'
-        //     }
-        // }
+         stage('Ansible Playbook') {
+             steps {
+                 sh 'ansible-playbook -v -i /var/lib/jenkins/workspace/AppTest/JenkinsAnsibleInstall/inventory.yaml /var/lib/jenkins/workspace/AppTest/JenkinsAnsibleInstall/playbook.yaml'
+             }
+         }
         // stage('Test') { 
         //     steps {
         //         sh 'sudo pytest /home/jenkins/.jenkins/workspace/FlaskApp/'
