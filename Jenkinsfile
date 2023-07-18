@@ -54,7 +54,7 @@ pipeline {
             steps {
                 sh '''
                    #!/bin/bash
-                   ssh -i /home/jenkins/.ssh/mykey -o StrictHostKeyChecking=no ubuntu@18.133.234.194 << EOF
+                   ssh -i /home/jenkins/.ssh/mykey -o StrictHostKeyChecking=no ubuntu@18.132.39.166 << EOF
                    git checkout https://github.com/ethanjohn99/PrimeAgeJenkins.git
                    docker-compose -f /home/ubuntu/PrimeAgeJenkins/docker-compose.yaml down
                    docker system prune -a -f
