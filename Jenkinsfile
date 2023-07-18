@@ -9,7 +9,7 @@ pipeline {
         stage('Unit Tests') {
             steps {
                 sh '''
-                      python3 -m pytest /var/lib/jenkins/workspace/AppTest/prime/tests/test_unit.py
+                      python3 -m pytest /var/lib/jenkins/workspace/AppDeploy/prime/tests/test_unit.py
                    '''
             }
         }    
