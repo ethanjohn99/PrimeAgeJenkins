@@ -5,6 +5,7 @@ pipeline {
                     defaultValue: false,
                     description: 'Read Jenkinsfile and exit.')
 		    }
+    stages {
         stage('Unit Tests') {
             steps {
                 sh '''
@@ -12,24 +13,7 @@ pipeline {
                    '''
             }
         }
-        stage(feature_to_dev) {
-            steps {
-                sh ''''
-                    git checkout origin/dev
-                    git merge origin/feature
-                    git push
-                '''
-            }
-        }
-        stage(dev_to_main){
-            steps {
-                sh ''''
-                    git checkout origin/main
-                    git merge origin/dev
-                    git push
-                '''
-            }
-        }
+        
         stage('docker prune') {
             steps {
                 sh 'sudo docker system prune -a -f'
@@ -39,6 +23,36 @@ pipeline {
         stage('docker compose') {
             steps {
                 sh 'sudo docker-compose build'
+            }
+        }
+        
+        stage('git credentials') {
+            steps {
+                sh '''
+                   git config --global user.email "ethanjohn99@gmail.com"
+                   git config --global user.name "ethanjohn99"
+                   git remote set-url origin git@github.com:ethanjohn99/PrimeAgeJenkins.git
+                   '''
+            }
+        }
+
+        stage('feature_to_dev') {
+            steps {
+                sh ''''
+                    git checkout -f origin/dev
+                    git merge origin/feature
+                    git push
+                '''
+            }
+        }
+
+        stage('dev_to_main'){
+            steps {
+                sh ''''
+                    git checkout origin/main
+                    git merge origin/dev
+                    git push
+                '''
             }
         }
 
