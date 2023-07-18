@@ -29,12 +29,12 @@ pipeline {
                    git config --global user.email "ethanjohn99@gmail.com"
                    git config --global user.name "ethanjohn99"
                    git remote set-url origin git@github.com:ethanjohn99/PrimeAgeJenkins.git
-                   '''
+                '''
             }
         }
         stage('feature_to_dev') {
             steps {
-                sh ''''
+                sh '''
                     git checkout -f origin/dev
                     git merge origin/feature
                     git push
@@ -43,7 +43,7 @@ pipeline {
         }
         stage('dev_to_main'){
             steps {
-                sh ''''
+                sh '''
                     git checkout origin/main
                     git merge origin/dev
                     git push
