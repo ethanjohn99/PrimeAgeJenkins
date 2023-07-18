@@ -37,7 +37,7 @@ pipeline {
                 sh '''
                     git checkout -f origin/dev
                     git merge origin/feature
-                    git push
+                    git push origin HEAD:dev
                 '''
             }
         }
@@ -46,7 +46,7 @@ pipeline {
                 sh '''
                     git checkout origin/main
                     git merge origin/dev
-                    git push
+                    git push origin HEAD:main
                 '''
             }
         }
