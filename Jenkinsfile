@@ -5,22 +5,29 @@ pipeline {
                     defaultValue: false,
                     description: 'Read Jenkinsfile and exit.')
 		    }
-    stages {
-         stage('Ansible Playbook') {
-             steps {
-                 sh 'ansible-playbook -v -i /var/lib/jenkins/workspace/AppTest/JenkinsAnsibleInstall/inventory.yaml /var/lib/jenkins/workspace/AppTest/JenkinsAnsibleInstall/playbook.yaml'
-             }
-         }
-        // stage('Test') { 
-        //     steps {
-        //         sh 'sudo pytest /home/jenkins/.jenkins/workspace/FlaskApp/'
-        //     }
-        // }
         stage('Unit Tests') {
             steps {
                 sh '''
                       python3 -m pytest /var/lib/jenkins/workspace/AppTest/prime/tests/test_unit.py
                    '''
+            }
+        }
+        stage(feature_to_dev) {
+            steps {
+                sh ''''
+                    git checkout origin/dev
+                    git merge origin/feature
+                    git push
+                '''
+            }
+        }
+        stage(dev_to_main){
+            steps {
+                sh ''''
+                    git checkout origin/main
+                    git merge origin/dev
+                    git push
+                '''
             }
         }
         stage('docker prune') {
@@ -40,10 +47,11 @@ pipeline {
                 sh '''
                    #!/bin/bash
                    ssh -i /home/jenkins/.ssh/mykey -o StrictHostKeyChecking=no ubuntu@18.133.234.194 << EOF
-                   docker-compose -f /home/ubuntu/AppTest/docker-compose.yaml down
+                   git checkout https://github.com/ethanjohn99/PrimeAgeJenkins.git
+                   docker-compose -f /home/ubuntu/PrimeAgeJenkins/docker-compose.yaml down
                    docker system prune -a -f
-                   docker-compose -f /home/ubuntu/AppTest/docker-compose.yaml up -d
-                   sudo rm -R /home/ubuntu/App
+                   docker-compose -f /home/ubuntu/PrimeAgeJenkins/docker-compose.yaml up -d
+                   sudo rm -R /home/ubuntu/PrimeAgeJenkins
                    << EOF
                 '''
             }
