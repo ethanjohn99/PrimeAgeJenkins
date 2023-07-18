@@ -2,10 +2,10 @@ all:
   children:
     jenkins:
       hosts:
-        18.169.187.50:
+        13.42.52.224:
     deployServer:
       hosts:
-        13.41.76.113:
+        18.133.234.194:
         
   
   vars:
