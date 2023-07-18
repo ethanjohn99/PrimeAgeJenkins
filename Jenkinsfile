@@ -55,10 +55,10 @@ pipeline {
                 sh '''
                    #!/bin/bash
                    ssh -i /home/jenkins/.ssh/mykey -o StrictHostKeyChecking=no ubuntu@18.132.39.166 << EOF
-                   git checkout https://github.com/ethanjohn99/PrimeAgeJenkins.git
-                   docker-compose -f /home/ubuntu/PrimeAgeJenkins/docker-compose.yaml down
-                   docker system prune -a -f
-                   docker-compose -f /home/ubuntu/PrimeAgeJenkins/docker-compose.yaml up -d
+                   git clone https://github.com/ethanjohn99/PrimeAgeJenkins.git
+                   sudo docker-compose -f /home/ubuntu/PrimeAgeJenkins/docker-compose.yaml down
+                   sudo docker system prune -a -f
+                   sudo docker-compose -f /home/ubuntu/PrimeAgeJenkins/docker-compose.yaml up -d
                    sudo rm -R /home/ubuntu/PrimeAgeJenkins
                    << EOF
                 '''
