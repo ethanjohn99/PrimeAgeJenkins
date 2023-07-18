@@ -12,20 +12,17 @@ pipeline {
                       python3 -m pytest /var/lib/jenkins/workspace/AppTest/prime/tests/test_unit.py
                    '''
             }
-        }
-        
+        }    
         stage('docker prune') {
             steps {
                 sh 'sudo docker system prune -a -f'
             }
         }
-
         stage('docker compose') {
             steps {
                 sh 'sudo docker-compose build'
             }
         }
-        
         stage('git credentials') {
             steps {
                 sh '''
@@ -35,7 +32,6 @@ pipeline {
                    '''
             }
         }
-
         stage('feature_to_dev') {
             steps {
                 sh ''''
@@ -45,7 +41,6 @@ pipeline {
                 '''
             }
         }
-
         stage('dev_to_main'){
             steps {
                 sh ''''
@@ -55,8 +50,7 @@ pipeline {
                 '''
             }
         }
-
-        stage('connect via ssh deploy server') {
+        stage('connect via ssh deploy server'){
             steps {
                 sh '''
                    #!/bin/bash
